@@ -4,13 +4,13 @@ require('dotenv').config();
 const verifyJTW = (req,res,next) => {
     const token = req.headers['authorization'];
     jwt.verify(token,process.env.JTW_KEY,(err, decoded)=>{
-        if(err) return {mensagem: "Não autorizado"}
+        if(err) return res.json({mensagem: "Não autorizado"});
 
         if (decoded.exp && decoded.exp * 1000 < Date.now()) {
-            reject({ mensagem: "Sessão inválida" });
+            reject res.json({ mensagem: "Sessão inválida" });
           }
           req.decodedToken = decoded;
-          next();
+          next(); 
     });
 };
 
